@@ -1,26 +1,32 @@
 class Solution {
 public:
     int countConsistentStrings(string allowed, vector<string>& words) {
-        int allowedcheck[26] = {0};
+        
+        unordered_map<char, int> allowedmap;
 
-        for (char c : allowed){
-            allowedcheck[c - 'a'] = 1;
-        }
-         int count = 0;
+        // Step 1: Mark allowed characters
+        for(char c : allowed){
+            allowedmap[c] = 1;
+        }   // ✅ missing brace fixed here
 
-         for (string word : words){
+        int count = 0;
+
+        // Step 2: Check each word
+        for(string word : words){
             bool valid = true;
 
             for(char c : word){
-                if(allowedcheck[c - 'a'] == 0){
+                if(allowedmap.find(c) == allowedmap.end()){
                     valid = false;
                     break;
                 }
             }
-            if (valid){
+
+            if(valid){
                 count++;
             }
-         }
-         return count;
+        }
+
+        return count;
     }
 };
